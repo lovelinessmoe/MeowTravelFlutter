@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meow_travel_flutter/fitness_app/fitness_app_home_screen.dart';
+import 'package:meow_travel_flutter/travel_app/travel_app_home_screen.dart';
 
 import 'login.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const FitnessAppHomeScreen(),
+      home: const TravelAppHomeScreen(),
       routes: <String, WidgetBuilder>{'router/login': (_) => const Login()},
     );
   }

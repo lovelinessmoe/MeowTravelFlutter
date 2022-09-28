@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/area_list_view.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/running_view.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/title_view.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/workout_view.dart';
+import 'package:meow_travel_flutter/travel_app/travel_app_theme.dart';
+import 'package:meow_travel_flutter/travel_app/group/title_view.dart';
 
-import '../fitness_app_theme.dart';
+import 'group_list_view.dart';
+import 'models/group_list_data.dart';
 
-class TrainingScreen extends StatefulWidget {
-  const TrainingScreen({Key? key, this.animationController}) : super(key: key);
+class GroupScreen extends StatefulWidget {
+  const GroupScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
 
   @override
-  _TrainingScreenState createState() => _TrainingScreenState();
+  State<StatefulWidget> createState() => _GroupScreenState();
 }
 
-class _TrainingScreenState extends State<TrainingScreen>
+class _GroupScreenState extends State<GroupScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 
@@ -23,12 +22,15 @@ class _TrainingScreenState extends State<TrainingScreen>
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
 
+  List<GroupListData> groupList = GroupListData.groupList;
+
   @override
   void initState() {
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+
     addAllListData();
 
     scrollController.addListener(() {
@@ -56,50 +58,47 @@ class _TrainingScreenState extends State<TrainingScreen>
     super.initState();
   }
 
-  void addAllListData() {
-    const int count = 5;
+  List<Widget> getHotelViewList() {
+    final List<Widget> groupListViews = <Widget>[];
+    for (int i = 0; i < groupList.length; i++) {
+      final int count = groupList.length;
+      final Animation<double> animation =
+          Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: widget.animationController!,
+          curve:
+              Interval((1 / count) * (i + 1), 1.0, curve: Curves.fastOutSlowIn),
+        ),
+      );
+      groupListViews.add(
+        GroupListView(
+          callback: () {},
+          hotelData: groupList[i],
+          animation: animation,
+          animationController: widget.animationController!,
+        ),
+      );
+    }
+    widget.animationController?.forward();
+    return groupListViews;
+  }
 
-    listViews.add(
-      WorkoutView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve: const Interval((1 / count) * 2, 1.0,
-                curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-    listViews.add(
-      RunningView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve: const Interval((1 / count) * 3, 1.0,
-                curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
+  void addAllListData() {
+    const int count = 9;
 
     listViews.add(
       TitleView(
-        titleTxt: 'Area of focus',
-        subTxt: 'more',
+        titleTxt: 'Mediterranean diet',
+        subTxt: 'Details',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
-            curve: const Interval((1 / count) * 4, 1.0,
+            curve: const Interval((1 / count) * 0, 1.0,
                 curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
     );
 
-    listViews.add(
-      AreaListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: const Interval((1 / count) * 5, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
-      ),
-    );
+    listViews.addAll(getHotelViewList());
   }
 
   Future<bool> getData() async {
@@ -165,6 +164,7 @@ class _TrainingScreenState extends State<TrainingScreen>
                 transform: Matrix4.translationValues(
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
+                  // topBar的后背景
                   decoration: BoxDecoration(
                     color: FitnessAppTheme.white.withOpacity(topBarOpacity),
                     borderRadius: const BorderRadius.only(
@@ -192,18 +192,20 @@ class _TrainingScreenState extends State<TrainingScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '个人中心',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: FitnessAppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: FitnessAppTheme.darkerText,
+                            Expanded(
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    '旅游团',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: FitnessAppTheme.fontName,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 22 + 6 - 6 * topBarOpacity,
+                                      letterSpacing: 1.2,
+                                      color: FitnessAppTheme.darkerText,
+                                    ),
                                   ),
                                 ),
                               ),

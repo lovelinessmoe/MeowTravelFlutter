@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Request {
   ///超时时间
@@ -14,7 +16,8 @@ class Request {
 
   Request._internal() {
     dio.options
-      ..baseUrl = 'http://localhost:9201'
+      // ..baseUrl = 'http://localhost:9201'
+      ..baseUrl = 'https://2420n0969k.zicp.fun'
       ..connectTimeout = CONNECT_TIMEOUT
       ..receiveTimeout = RECEIVE_TIMEOUT
       ..validateStatus = (int? status) {
@@ -33,8 +36,18 @@ class Request {
       // 如果你想终止请求并触发一个错误,你可以返回一个`DioError`对象,如`handler.reject(error)`，
       // 这样请求将被中止并触发异常，上层catchError会被调用。
     }, onResponse: (response, handler) {
-      // Do something with response data
-      return handler.next(response.data); // continue
+      var msg = response.data['message'];
+      if (msg != null) {
+        Fluttertoast.showToast(
+            msg: msg,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black45,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+      return handler.next(response); // continue
       // 如果你想终止请求并触发一个错误,你可以 reject 一个`DioError`对象,如`handler.reject(error)`，
       // 这样请求将被中止并触发异常，上层catchError会被调用。
     }, onError: (DioError e, handler) {
@@ -43,7 +56,7 @@ class Request {
       // 如果你想完成请求并返回一些自定义数据，可以resolve 一个`Response`,如`handler.resolve(response)`。
       // 这样请求将会被终止，上层then会被调用，then中返回的数据将是你的自定义response.
     }));
-    dio.interceptors.add(LogInterceptor()); //打开日志
+    // dio.interceptors.add(LogInterceptor()); //打开日志
   }
 
   void init(

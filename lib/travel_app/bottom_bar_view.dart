@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:meow_travel_flutter/fitness_app/fitness_app_theme.dart';
-import 'package:meow_travel_flutter/fitness_app/models/tabIcon_data.dart';
+import 'package:meow_travel_flutter/travel_app/travel_app_theme.dart';
+import 'package:meow_travel_flutter/travel_app/models/tabIcon_data.dart';
 import 'package:meow_travel_flutter/main.dart';
 
 class BottomBarView extends StatefulWidget {

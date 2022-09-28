@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:meow_travel_flutter/api/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'fitness_app/fitness_app_theme.dart';
+import 'travel_app/travel_app_theme.dart';
 import 'main.dart';
 
 class Login extends StatefulWidget {
@@ -11,9 +15,37 @@ class Login extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginState();
 }
 
+class _LoginUser {
+  String email = "";
+  String password = "";
+  String code = "";
+  String captchaVerification = "";
+
+  Map<String, dynamic> toMap() {
+    return {
+      "email": email,
+      "password": password,
+      "code": code,
+      "captchaVerification": captchaVerification,
+    };
+  }
+}
+
 class _LoginState extends State<Login> with TickerProviderStateMixin {
+  Widget _captchaImg = Container();
+
+  _LoginUser loginUser = _LoginUser();
+
+  @override
+  void initState() {
+    super.initState();
+    _getCaptcha();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // _getCaptcha();
+
     return Container(
         color: FitnessAppTheme.background,
         child: Scaffold(
@@ -46,14 +78,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ClipOval(
-          child: Image.asset("assets/images/logo.png",
+          child: Image.asset("assets/travel_app/logo.png",
               height: 220, width: 220, fit: BoxFit.cover),
         ),
         Padding(
           padding:
-              const EdgeInsets.only(left: 26, right: 26, top: 60, bottom: 8),
+              const EdgeInsets.only(left: 26, right: 26, top: 6, bottom: 8),
           child: Column(
-            children: [
+            children: <Widget>[
               Row(
                 children: <Widget>[
                   Expanded(
@@ -77,14 +109,16 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           padding: const EdgeInsets.only(
                               left: 16, right: 16, top: 4, bottom: 4),
                           child: TextField(
-                            onChanged: (String txt) {},
+                            onChanged: (String txt) {
+                              loginUser.email = txt;
+                            },
                             style: const TextStyle(
                               fontSize: 18,
                             ),
                             cursorColor: HexColor('#54D3C2'),
                             decoration: const InputDecoration(
                               border: InputBorder.none,
-                              hintText: '用户名',
+                              hintText: '邮箱',
                             ),
                           ),
                         ),
@@ -116,7 +150,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           padding: const EdgeInsets.only(
                               left: 16, right: 16, top: 4, bottom: 4),
                           child: TextField(
-                            onChanged: (String txt) {},
+                            onChanged: (String txt) {
+                              loginUser.password = txt;
+                            },
                             style: const TextStyle(
                               fontSize: 18,
                             ),
@@ -132,21 +168,85 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFFFF),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(38.0),
+                    ),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          offset: const Offset(0, 2),
+                          blurRadius: 8.0),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, top: 4, bottom: 4),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextField(
+                            onChanged: (String txt) {
+                              loginUser.code = txt;
+                            },
+                            style: const TextStyle(
+                              fontSize: 18,
+                            ),
+                            cursorColor: HexColor('#54D3C2'),
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '验证码',
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            child: InkWell(
+                          onTap: _getCaptcha,
+                          child: SizedBox(
+                            height: 50,
+                            // 边框
+                            // decoration: BoxDecoration(
+                            //     border: Border.all(color: Colors.black, width: 2)),
+                            child: _captchaImg,
+                          ),
+                        )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                       child: Container(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 10),
                       child: InkWell(
-                        onTap: () {
-                          Map user = {
-                            "userName": "1695560542@qq.com",
-                            "password": "123456"
-                          };
-                          // Map<String, dynamic> map = json.decode(jsonStr);
-                          Auth.login(user);
+                        onTap: () async {
+                          var login = await Auth.login(loginUser.toMap());
+                          final prefs = await SharedPreferences.getInstance();
+                          if (login["data"] != null) {
+                            final setTokenResult = await prefs.setString(
+                                'userToken', login["data"]["auth"]["token"]);
+                            await prefs.setString("userName", login["data"]["userName"]);
+                            await prefs.setString("userId", login["data"]["userId"]);
+                            await prefs.setString("avatarUrl", login["data"]["avatarUrl"]);
+                            await prefs.setString("email", login["data"]["email"]);
+                            if (setTokenResult) {
+                              debugPrint('保存登录user成功');
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/',
+                                (route) => route == null,
+                              );
+                            } else {
+                              debugPrint('error, 保存登录token失败');
+                            }
+                          }
                         },
                         child: Container(
                           height: 58,
@@ -161,7 +261,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             color: const Color(0xff132137),
                           ),
                           child: const Text(
-                            "Let's begin",
+                            "登录",
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,
@@ -178,5 +278,24 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         )
       ],
     );
+  }
+
+  void _getCaptcha() async {
+    var res = await Auth.captcha();
+    var captchaCode = res['data']['img'];
+    // 不需要定义的data:image/png;BASE64,
+    captchaCode = captchaCode.split(',')[1];
+    Uint8List bytes = const Base64Decoder().convert(captchaCode);
+
+    loginUser.captchaVerification = res['data']['captchaVerification'];
+
+    setState(() {
+      loginUser.code = "";
+
+      _captchaImg = Image.memory(
+        bytes,
+        fit: BoxFit.contain,
+      );
+    });
   }
 }

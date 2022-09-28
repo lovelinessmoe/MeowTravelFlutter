@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../fitness_app_theme.dart';
+import '../travel_app_theme.dart';
 
 class RunningView extends StatelessWidget {
   final AnimationController? animationController;
@@ -55,7 +55,7 @@ class RunningView extends StatelessWidget {
                                   child: AspectRatio(
                                     aspectRatio: 1.714,
                                     child: Image.asset(
-                                        "assets/fitness_app/back.png"),
+                                        "assets/travel_app/back.png"),
                                   ),
                                 ),
                               ),
@@ -118,7 +118,7 @@ class RunningView extends StatelessWidget {
                         child: SizedBox(
                           width: 110,
                           height: 110,
-                          child: Image.asset("assets/fitness_app/runner.png"),
+                          child: Image.asset("assets/travel_app/runner.png"),
                         ),
                       )
                     ],

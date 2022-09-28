@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:meow_travel_flutter/main.dart';
 
-import '../fitness_app_theme.dart';
+import '../models/user.dart';
+import '../travel_app_theme.dart';
 
-class WorkoutView extends StatelessWidget {
+class MyInfoView extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
+  final User user;
 
-  const WorkoutView({Key? key, this.animationController, this.animation})
+  // final String userName;
+
+  const MyInfoView(
+      {Key? key, this.animationController, this.animation, required this.user})
       : super(key: key);
 
   @override
@@ -37,7 +42,7 @@ class WorkoutView extends StatelessWidget {
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: FitnessAppTheme.grey.withOpacity(0.6),
-                        offset: Offset(1.1, 1.1),
+                        offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
                 ),
@@ -47,12 +52,12 @@ class WorkoutView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'Loveliness',
+                          user.userName ?? "未登录",
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: FitnessAppTheme.fontName,
                             fontWeight: FontWeight.normal,
                             fontSize: 20,
@@ -85,23 +90,30 @@ class WorkoutView extends StatelessWidget {
                                       blurRadius: 8.0),
                                 ],
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_right,
-                                    color: HexColor("#6F56E8"),
-                                    size: 44,
+                              child: Visibility(
+                                  visible: user.userToken?.isEmpty ?? true,
+                                  // visible: true,
+                                  replacement: const SizedBox(
+                                    height: 48,
                                   ),
-                                  onPressed: () {
-                                    // 路由跳转
-                                    Navigator.of(context)
-                                        .pushNamed('router/login')
-                                        .then((value) => print(value));
-                                  },
-                                ),
+                                  // 设置是否可见：true:可见 false:不可见
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_right,
+                                        color: HexColor("#6F56E8"),
+                                      ),
+                                      onPressed: () {
+                                        // 路由跳转
+                                        Navigator.of(context)
+                                            .pushNamed('router/login')
+                                            .then((value) => print(value));
+                                      },
+                                    ),
+                                  ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       )

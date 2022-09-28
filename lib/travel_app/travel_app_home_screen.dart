@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:meow_travel_flutter/fitness_app/models/tabIcon_data.dart';
-import 'package:meow_travel_flutter/fitness_app/training/training_screen.dart';
+import 'package:meow_travel_flutter/travel_app/models/tabIcon_data.dart';
+import 'package:meow_travel_flutter/travel_app/my/my_page_screen.dart';
 
-import 'bottom_navigation_view/bottom_bar_view.dart';
-import 'fitness_app_theme.dart';
-import 'my_diary/my_diary_screen.dart';
+import 'bottom_bar_view.dart';
+import 'travel_app_theme.dart';
+import 'group/group_screen.dart';
 
-class FitnessAppHomeScreen extends StatefulWidget {
-  const FitnessAppHomeScreen({super.key});
+class TravelAppHomeScreen extends StatefulWidget {
+  const TravelAppHomeScreen({super.key});
 
   @override
-  _FitnessAppHomeScreenState createState() => _FitnessAppHomeScreenState();
+  _TravelAppHomeScreenState createState() => _TravelAppHomeScreenState();
 }
 
-class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
+class _TravelAppHomeScreenState extends State<TravelAppHomeScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
@@ -32,7 +32,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    tabBody = MyDiaryScreen(animationController: animationController);
+    tabBody = GroupScreen(animationController: animationController);
     super.initState();
   }
 
@@ -91,7 +91,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                 }
                 setState(() {
                   tabBody =
-                      MyDiaryScreen(animationController: animationController);
+                      GroupScreen(animationController: animationController);
                 });
               });
             } else if (index == 1 || index == 3) {
@@ -101,7 +101,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                 }
                 setState(() {
                   tabBody =
-                      TrainingScreen(animationController: animationController);
+                      MyPageScreen(animationController: animationController);
                 });
               });
             }

@@ -1,5 +1,5 @@
-class HotelListData {
-  HotelListData({
+class GroupListData {
+  GroupListData({
     this.imagePath = '',
     this.titleTxt = '',
     this.subTxt = "",
@@ -17,8 +17,8 @@ class HotelListData {
   int reviews;
   int perNight;
 
-  static List<HotelListData> hotelList = <HotelListData>[
-    HotelListData(
+  static List<GroupListData> groupList = <GroupListData>[
+    GroupListData(
       imagePath: 'assets/hotel/hotel_1.png',
       titleTxt: 'Grand Royal Hotel',
       subTxt: 'Wembley, London',
@@ -27,7 +27,7 @@ class HotelListData {
       rating: 4.4,
       perNight: 180,
     ),
-    HotelListData(
+    GroupListData(
       imagePath: 'assets/hotel/hotel_2.png',
       titleTxt: 'Queen Hotel',
       subTxt: 'Wembley, London',
@@ -36,7 +36,7 @@ class HotelListData {
       rating: 4.5,
       perNight: 200,
     ),
-    HotelListData(
+    GroupListData(
       imagePath: 'assets/hotel/hotel_3.png',
       titleTxt: 'Grand Royal Hotel',
       subTxt: 'Wembley, London',
@@ -45,7 +45,7 @@ class HotelListData {
       rating: 4.0,
       perNight: 60,
     ),
-    HotelListData(
+    GroupListData(
       imagePath: 'assets/hotel/hotel_4.png',
       titleTxt: 'Queen Hotel',
       subTxt: 'Wembley, London',
@@ -54,7 +54,7 @@ class HotelListData {
       rating: 4.4,
       perNight: 170,
     ),
-    HotelListData(
+    GroupListData(
       imagePath: 'assets/hotel/hotel_5.png',
       titleTxt: 'Grand Royal Hotel',
       subTxt: 'Wembley, London',

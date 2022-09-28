@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:meow_travel_flutter/fitness_app/fitness_app_theme.dart';
-import 'package:meow_travel_flutter/fitness_app/my_diary/water_view.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/body_measurement.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/glass_view.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/mediterranean_diet_view.dart';
-import 'package:meow_travel_flutter/fitness_app/ui_view/title_view.dart';
+import 'package:meow_travel_flutter/travel_app/my/my_info_view.dart';
+import 'package:meow_travel_flutter/travel_app/my/running_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MyDiaryScreen extends StatefulWidget {
-  const MyDiaryScreen({Key? key, this.animationController}) : super(key: key);
+import '../models/user.dart';
+import '../travel_app_theme.dart';
+
+class MyPageScreen extends StatefulWidget {
+  const MyPageScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
 
   @override
-  _MyDiaryScreenState createState() => _MyDiaryScreenState();
+  _MyPageScreenState createState() => _MyPageScreenState();
 }
 
-class _MyDiaryScreenState extends State<MyDiaryScreen>
+class _MyPageScreenState extends State<MyPageScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 
@@ -29,6 +29,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+
 
     addAllListData();
 
@@ -54,85 +55,40 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         }
       }
     });
+
     super.initState();
   }
 
-  void addAllListData() {
-    const int count = 9;
+  void addAllListData() async{
+
+    final prefs = await SharedPreferences.getInstance();
+    var userToken = prefs.getString("userToken");
+    var userName = prefs.getString("userName");
+    var userId = prefs.getString("userId");
+    var avatarUrl = prefs.getString("avatarUrl");
+    var email = prefs.getString("email");
+    User userInfo = User(userToken, userName, userId, avatarUrl, email);
+
+    const int count = 5;
 
     listViews.add(
-      TitleView(
-        titleTxt: 'Mediterranean diet',
-        subTxt: 'Details',
+      MyInfoView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval((1 / count) * 0, 1.0,
                 curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
+        user: userInfo,
       ),
     );
-
     listViews.add(
-      MediterranesnDietView(
+      RunningView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval((1 / count) * 1, 1.0,
                 curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
       ),
-    );
-
-    listViews.add(
-      TitleView(
-        titleTxt: 'Body measurement',
-        subTxt: 'Today',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve: const Interval((1 / count) * 4, 1.0,
-                curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
-      BodyMeasurementView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve: const Interval((1 / count) * 5, 1.0,
-                curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-    listViews.add(
-      TitleView(
-        titleTxt: 'Water',
-        subTxt: 'Aqua SmartBottle',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve: const Interval((1 / count) * 6, 1.0,
-                curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
-      WaterView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: const Interval((1 / count) * 7, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
-      ),
-    );
-    listViews.add(
-      GlassView(
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController!,
-                  curve: const Interval((1 / count) * 8, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController!),
     );
   }
 
@@ -199,7 +155,6 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                 transform: Matrix4.translationValues(
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
-                  // topBar的后背景
                   decoration: BoxDecoration(
                     color: FitnessAppTheme.white.withOpacity(topBarOpacity),
                     borderRadius: const BorderRadius.only(
@@ -227,20 +182,18 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Expanded(
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '旅游团',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FitnessAppTheme.fontName,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 22 + 6 - 6 * topBarOpacity,
-                                      letterSpacing: 1.2,
-                                      color: FitnessAppTheme.darkerText,
-                                    ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '个人中心',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: FitnessAppTheme.fontName,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 22 + 6 - 6 * topBarOpacity,
+                                    letterSpacing: 1.2,
+                                    color: FitnessAppTheme.darkerText,
                                   ),
                                 ),
                               ),
