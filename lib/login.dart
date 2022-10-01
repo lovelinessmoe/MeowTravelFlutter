@@ -3,10 +3,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:meow_travel_flutter/api/auth.dart';
+import 'package:meow_travel_flutter/travel_app/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'travel_app/travel_app_theme.dart';
 import 'main.dart';
+import 'travel_app/travel_app_theme.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -47,7 +48,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     // _getCaptcha();
 
     return Container(
-        color: FitnessAppTheme.background,
+        color: TravelAppTheme.background,
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: FutureBuilder<bool>(
@@ -117,6 +118,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             ),
                             cursorColor: HexColor('#54D3C2'),
                             decoration: const InputDecoration(
+                              icon: Icon(Icons.person, color: AppTheme.grey),
                               border: InputBorder.none,
                               hintText: '邮箱',
                             ),
@@ -150,6 +152,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           padding: const EdgeInsets.only(
                               left: 16, right: 16, top: 4, bottom: 4),
                           child: TextField(
+                            // 密码隐藏
+                            obscureText: true,
                             onChanged: (String txt) {
                               loginUser.password = txt;
                             },
@@ -158,6 +162,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             ),
                             cursorColor: HexColor('#54D3C2'),
                             decoration: const InputDecoration(
+                              icon: Icon(Icons.password, color: AppTheme.grey),
                               border: InputBorder.none,
                               hintText: '密码',
                             ),
@@ -198,6 +203,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             ),
                             cursorColor: HexColor('#54D3C2'),
                             decoration: const InputDecoration(
+                              icon: Icon(Icons.data_usage, color: AppTheme.grey),
                               border: InputBorder.none,
                               hintText: '验证码',
                             ),
@@ -233,16 +239,21 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           if (login["data"] != null) {
                             final setTokenResult = await prefs.setString(
                                 'userToken', login["data"]["auth"]["token"]);
-                            await prefs.setString("userName", login["data"]["userName"]);
-                            await prefs.setString("userId", login["data"]["userId"]);
-                            await prefs.setString("avatarUrl", login["data"]["avatarUrl"]);
-                            await prefs.setString("email", login["data"]["email"]);
+                            await prefs.setString(
+                                "userName", login["data"]["userName"]);
+                            await prefs.setString(
+                                "userId", login["data"]["userId"]);
+                            await prefs.setString(
+                                "avatarUrl", login["data"]["avatarUrl"]);
+                            await prefs.setString(
+                                "email", login["data"]["email"]);
                             if (setTokenResult) {
                               debugPrint('保存登录user成功');
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                 '/',
                                 (route) => route == null,
                               );
+                              // Navigator.pop(context,"haa");
                             } else {
                               debugPrint('error, 保存登录token失败');
                             }

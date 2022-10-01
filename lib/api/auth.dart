@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:meow_travel_flutter/utils/request/request.dart';
+import 'package:meow_travel_flutter/utils/request.dart';
 
 class Auth {
   static login(data) {

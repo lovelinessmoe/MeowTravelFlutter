@@ -61,7 +61,7 @@ class GroupListView extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              color: FitnessAppTheme.buildLightTheme()
+                              color: TravelAppTheme.buildLightTheme()
                                   .backgroundColor,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +104,7 @@ class GroupListView extends StatelessWidget {
                                               Icon(
                                                 FontAwesomeIcons.locationDot,
                                                 size: 12,
-                                                color: FitnessAppTheme
+                                                color: TravelAppTheme
                                                         .buildLightTheme()
                                                     .primaryColor,
                                               ),
@@ -136,20 +136,20 @@ class GroupListView extends StatelessWidget {
                                                   ratingWidget: RatingWidget(
                                                     full: Icon(
                                                       Icons.star_rate_rounded,
-                                                      color: FitnessAppTheme
+                                                      color: TravelAppTheme
                                                               .buildLightTheme()
                                                           .primaryColor,
                                                     ),
                                                     half: Icon(
                                                       Icons.star_half_rounded,
-                                                      color: FitnessAppTheme
+                                                      color: TravelAppTheme
                                                               .buildLightTheme()
                                                           .primaryColor,
                                                     ),
                                                     empty: Icon(
                                                       Icons
                                                           .star_border_rounded,
-                                                      color: FitnessAppTheme
+                                                      color: TravelAppTheme
                                                               .buildLightTheme()
                                                           .primaryColor,
                                                     ),
@@ -220,7 +220,7 @@ class GroupListView extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Icon(
                                   Icons.favorite_border,
-                                  color: FitnessAppTheme.buildLightTheme()
+                                  color: TravelAppTheme.buildLightTheme()
                                       .primaryColor,
                                 ),
                               ),

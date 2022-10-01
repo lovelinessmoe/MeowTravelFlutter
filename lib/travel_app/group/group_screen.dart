@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meow_travel_flutter/travel_app/travel_app_theme.dart';
 import 'package:meow_travel_flutter/travel_app/group/title_view.dart';
+import 'package:meow_travel_flutter/travel_app/travel_app_theme.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'group_list_view.dart';
 import 'models/group_list_data.dart';
@@ -23,6 +24,26 @@ class _GroupScreenState extends State<GroupScreen>
   double topBarOpacity = 0.0;
 
   List<GroupListData> groupList = GroupListData.groupList;
+
+  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    items.add((items.length + 1).toString());
+    if (mounted) setState(() {});
+    _refreshController.loadComplete();
+  }
 
   @override
   void initState() {
@@ -109,7 +130,7 @@ class _GroupScreenState extends State<GroupScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: FitnessAppTheme.background,
+      color: TravelAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -166,13 +187,13 @@ class _GroupScreenState extends State<GroupScreen>
                 child: Container(
                   // topBar的后背景
                   decoration: BoxDecoration(
-                    color: FitnessAppTheme.white.withOpacity(topBarOpacity),
+                    color: TravelAppTheme.white.withOpacity(topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: FitnessAppTheme.grey
+                          color: TravelAppTheme.grey
                               .withOpacity(0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
@@ -200,11 +221,11 @@ class _GroupScreenState extends State<GroupScreen>
                                     '旅游团',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      fontFamily: FitnessAppTheme.fontName,
+                                      fontFamily: TravelAppTheme.fontName,
                                       fontWeight: FontWeight.w700,
                                       fontSize: 22 + 6 - 6 * topBarOpacity,
                                       letterSpacing: 1.2,
-                                      color: FitnessAppTheme.darkerText,
+                                      color: TravelAppTheme.darkerText,
                                     ),
                                   ),
                                 ),

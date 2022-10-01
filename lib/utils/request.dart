@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:meow_travel_flutter/utils/router_now.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Request {
   ///超时时间
@@ -26,16 +28,21 @@ class Request {
       ..headers = {};
 
     // 添加request拦截器
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+    dio.interceptors
+        .add(InterceptorsWrapper(onRequest: (options, handler) async {
+      final prefs = await SharedPreferences.getInstance();
+      var userToken = prefs.getString("userToken");
       // Do something before request is sent
-      options.headers.addAll({"aaa": "aaa"});
+      if (userToken != null) {
+        options.headers.addAll({"authorization": userToken});
+      }
       return handler.next(options); //continue
       // 如果你想完成请求并返回一些自定义数据，你可以resolve一个Response对象 `handler.resolve(response)`。
       // 这样请求将会被终止，上层then会被调用，then中返回的数据将是你的自定义response.
       //
       // 如果你想终止请求并触发一个错误,你可以返回一个`DioError`对象,如`handler.reject(error)`，
       // 这样请求将被中止并触发异常，上层catchError会被调用。
-    }, onResponse: (response, handler) {
+    }, onResponse: (response, handler) async {
       var msg = response.data['message'];
       if (msg != null) {
         Fluttertoast.showToast(
@@ -47,10 +54,27 @@ class Request {
             textColor: Colors.white,
             fontSize: 16.0);
       }
+      var code = response.data['code'];
+      // 登录过期
+      if (code == 2002) {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.clear();
+
+        RouterNow.navigatorKey.currentState
+            ?.pushNamedAndRemoveUntil('router/login', (route) => route == null);
+      }
       return handler.next(response); // continue
       // 如果你想终止请求并触发一个错误,你可以 reject 一个`DioError`对象,如`handler.reject(error)`，
       // 这样请求将被中止并触发异常，上层catchError会被调用。
     }, onError: (DioError e, handler) {
+      Fluttertoast.showToast(
+          msg: '呜呜呜，出错了',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black45,
+          textColor: Colors.white,
+          fontSize: 16.0);
       // Do something with response error
       return handler.next(e); //continue
       // 如果你想完成请求并返回一些自定义数据，可以resolve 一个`Response`,如`handler.resolve(response)`。

@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:meow_travel_flutter/main.dart';
+import 'package:meow_travel_flutter/travel_app/app_theme.dart';
 
 import '../models/user.dart';
 import '../travel_app_theme.dart';
@@ -8,8 +10,6 @@ class MyInfoView extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
   final User user;
-
-  // final String userName;
 
   const MyInfoView(
       {Key? key, this.animationController, this.animation, required this.user})
@@ -31,7 +31,7 @@ class MyInfoView extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    FitnessAppTheme.nearlyDarkBlue,
+                    TravelAppTheme.nearlyDarkBlue,
                     HexColor("#6F56E8")
                   ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: const BorderRadius.only(
@@ -41,7 +41,7 @@ class MyInfoView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: FitnessAppTheme.grey.withOpacity(0.6),
+                        color: TravelAppTheme.grey.withOpacity(0.6),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -58,16 +58,33 @@ class MyInfoView extends StatelessWidget {
                           user.userName ?? "未登录",
                           textAlign: TextAlign.left,
                           style: const TextStyle(
-                            fontFamily: FitnessAppTheme.fontName,
+                            fontFamily: TravelAppTheme.fontName,
                             fontWeight: FontWeight.normal,
-                            fontSize: 20,
+                            fontSize: 27,
                             letterSpacing: 0.0,
-                            color: FitnessAppTheme.white,
+                            color: TravelAppTheme.white,
                           ),
                         ),
                       ),
                       const SizedBox(
-                        height: 32,
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          user.email ?? "",
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 18,
+                            letterSpacing: 0.0,
+                            color: AppTheme.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 4),
@@ -80,38 +97,43 @@ class MyInfoView extends StatelessWidget {
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: FitnessAppTheme.nearlyWhite,
+                                color: TravelAppTheme.nearlyWhite,
                                 shape: BoxShape.circle,
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                      color: FitnessAppTheme.nearlyBlack
+                                      color: TravelAppTheme.nearlyBlack
                                           .withOpacity(0.4),
                                       offset: const Offset(8.0, 8.0),
                                       blurRadius: 8.0),
                                 ],
                               ),
                               child: Visibility(
-                                  visible: user.userToken?.isEmpty ?? true,
-                                  // visible: true,
-                                  replacement: const SizedBox(
+                                // 设置是否可见：true:可见 false:不可见
+                                visible: user.userToken?.isEmpty ?? true,
+                                // visible: true,
+                                replacement: ClipOval(
+                                  child: Image(
                                     height: 48,
-                                  ),
-                                  // 设置是否可见：true:可见 false:不可见
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(0.0),
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.arrow_right,
-                                        color: HexColor("#6F56E8"),
-                                      ),
-                                      onPressed: () {
-                                        // 路由跳转
-                                        Navigator.of(context)
-                                            .pushNamed('router/login')
-                                            .then((value) => print(value));
-                                      },
+                                    width: 48,
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(
+                                      user.avatarUrl ??
+                                          "https://s2.loli.net/2022/04/05/3QmL6UklnaV9EP5.jpg",
                                     ),
                                   ),
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.login,
+                                    color: AppTheme.grey,
+                                  ),
+                                  onPressed: () {
+                                    // 路由跳转
+                                    Navigator.of(context)
+                                        .pushNamed('router/login');
+                                    // .then((value) => print(value));
+                                  },
+                                ),
                               ),
                             ),
                           ],

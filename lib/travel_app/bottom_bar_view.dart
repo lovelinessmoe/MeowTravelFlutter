@@ -15,7 +15,7 @@ class BottomBarView extends StatefulWidget {
   final List<TabIconData>? tabIconsList;
 
   @override
-  _BottomBarViewState createState() => _BottomBarViewState();
+  State<StatefulWidget> createState() => _BottomBarViewState();
 }
 
 class _BottomBarViewState extends State<BottomBarView>
@@ -43,7 +43,7 @@ class _BottomBarViewState extends State<BottomBarView>
             return Transform(
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
               child: PhysicalShape(
-                color: FitnessAppTheme.white,
+                color: TravelAppTheme.white,
                 elevation: 16.0,
                 clipper: TabClipper(
                     radius: Tween<double>(begin: 0.0, end: 1.0)
@@ -123,10 +123,10 @@ class _BottomBarViewState extends State<BottomBarView>
                     child: Container(
                       // alignment: Alignment.center,s
                       decoration: BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: TravelAppTheme.nearlyDarkBlue,
                         gradient: LinearGradient(
                             colors: [
-                              FitnessAppTheme.nearlyDarkBlue,
+                              TravelAppTheme.nearlyDarkBlue,
                               HexColor('#6A88E5'),
                             ],
                             begin: Alignment.topLeft,
@@ -134,7 +134,7 @@ class _BottomBarViewState extends State<BottomBarView>
                         shape: BoxShape.circle,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: FitnessAppTheme.nearlyDarkBlue
+                              color: TravelAppTheme.nearlyDarkBlue
                                   .withOpacity(0.4),
                               offset: const Offset(8.0, 16.0),
                               blurRadius: 16.0),
@@ -142,6 +142,7 @@ class _BottomBarViewState extends State<BottomBarView>
                       ),
                       child: Material(
                         color: Colors.transparent,
+                        // 万物点击事件
                         child: InkWell(
                           splashColor: Colors.white.withOpacity(0.1),
                           highlightColor: Colors.transparent,
@@ -149,7 +150,7 @@ class _BottomBarViewState extends State<BottomBarView>
                           onTap: widget.addClick,
                           child: const Icon(
                             Icons.add,
-                            color: FitnessAppTheme.white,
+                            color: TravelAppTheme.white,
                             size: 32,
                           ),
                         ),
@@ -186,7 +187,7 @@ class TabIcons extends StatefulWidget {
   final Function()? removeAllSelect;
 
   @override
-  _TabIconsState createState() => _TabIconsState();
+  State<StatefulWidget> createState() => _TabIconsState();
 }
 
 class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
@@ -254,7 +255,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 8,
                       height: 8,
                       decoration: const BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: TravelAppTheme.nearlyDarkBlue,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -275,7 +276,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 4,
                       height: 4,
                       decoration: const BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: TravelAppTheme.nearlyDarkBlue,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -296,7 +297,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 6,
                       height: 6,
                       decoration: const BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: TravelAppTheme.nearlyDarkBlue,
                         shape: BoxShape.circle,
                       ),
                     ),

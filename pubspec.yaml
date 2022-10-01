@@ -52,8 +52,14 @@ dev_dependencies:
   intl: ^0.17.0
   animations: ^2.0.5
   dio: ^4.0.6
+  # 共享数据存储
   shared_preferences: ^2.0.15
   fluttertoast: ^8.0.9
+  cached_network_image: ^3.2.2
+  pull_to_refresh: ^2.0.0
+  image_picker: ^0.8.5+3
+  uuid: ^3.0.6
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

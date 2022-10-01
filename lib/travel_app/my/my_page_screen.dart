@@ -3,6 +3,7 @@ import 'package:meow_travel_flutter/travel_app/my/my_info_view.dart';
 import 'package:meow_travel_flutter/travel_app/my/running_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../animate_view.dart';
 import '../models/user.dart';
 import '../travel_app_theme.dart';
 
@@ -12,7 +13,7 @@ class MyPageScreen extends StatefulWidget {
   final AnimationController? animationController;
 
   @override
-  _MyPageScreenState createState() => _MyPageScreenState();
+  State<StatefulWidget> createState() => _MyPageScreenState();
 }
 
 class _MyPageScreenState extends State<MyPageScreen>
@@ -29,7 +30,6 @@ class _MyPageScreenState extends State<MyPageScreen>
         CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-
 
     addAllListData();
 
@@ -59,8 +59,7 @@ class _MyPageScreenState extends State<MyPageScreen>
     super.initState();
   }
 
-  void addAllListData() async{
-
+  Future<void> addAllListData() async {
     final prefs = await SharedPreferences.getInstance();
     var userToken = prefs.getString("userToken");
     var userName = prefs.getString("userName");
@@ -69,7 +68,7 @@ class _MyPageScreenState extends State<MyPageScreen>
     var email = prefs.getString("email");
     User userInfo = User(userToken, userName, userId, avatarUrl, email);
 
-    const int count = 5;
+    const int count = 3;
 
     listViews.add(
       MyInfoView(
@@ -90,6 +89,28 @@ class _MyPageScreenState extends State<MyPageScreen>
         animationController: widget.animationController!,
       ),
     );
+    listViews.add(AnimateView(
+      animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+          parent: widget.animationController!,
+          curve: const Interval((1 / count) * 3, 1.0,
+              curve: Curves.fastOutSlowIn))),
+      animationController: widget.animationController!,
+      childView: TextButton(
+        onPressed: () async {
+          final prefs = await SharedPreferences.getInstance();
+          prefs.clear();
+          // 路由跳转
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/',
+            (route) => route == null,
+          );
+        },
+        child: Visibility(
+          visible: userInfo.userToken?.isNotEmpty ?? false,
+          child: const Text("退出登录"),
+        ),
+      ),
+    ));
   }
 
   Future<bool> getData() async {
@@ -100,7 +121,7 @@ class _MyPageScreenState extends State<MyPageScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: FitnessAppTheme.background,
+      color: TravelAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -156,13 +177,13 @@ class _MyPageScreenState extends State<MyPageScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: FitnessAppTheme.white.withOpacity(topBarOpacity),
+                    color: TravelAppTheme.white.withOpacity(topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: FitnessAppTheme.grey
+                          color: TravelAppTheme.grey
                               .withOpacity(0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
@@ -189,11 +210,11 @@ class _MyPageScreenState extends State<MyPageScreen>
                                   '个人中心',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontFamily: FitnessAppTheme.fontName,
+                                    fontFamily: TravelAppTheme.fontName,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 22 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,
-                                    color: FitnessAppTheme.darkerText,
+                                    color: TravelAppTheme.darkerText,
                                   ),
                                 ),
                               ),

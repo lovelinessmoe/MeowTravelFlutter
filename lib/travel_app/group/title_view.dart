@@ -34,11 +34,11 @@ class TitleView extends StatelessWidget {
                       titleTxt,
                       textAlign: TextAlign.left,
                       style: const TextStyle(
-                        fontFamily: FitnessAppTheme.fontName,
+                        fontFamily: TravelAppTheme.fontName,
                         fontWeight: FontWeight.w500,
                         fontSize: 18,
                         letterSpacing: 0.5,
-                        color: FitnessAppTheme.lightText,
+                        color: TravelAppTheme.lightText,
                       ),
                     ),
                   ),
@@ -54,11 +54,11 @@ class TitleView extends StatelessWidget {
                             subTxt,
                             textAlign: TextAlign.left,
                             style: const TextStyle(
-                              fontFamily: FitnessAppTheme.fontName,
+                              fontFamily: TravelAppTheme.fontName,
                               fontWeight: FontWeight.normal,
                               fontSize: 16,
                               letterSpacing: 0.5,
-                              color: FitnessAppTheme.nearlyDarkBlue,
+                              color: TravelAppTheme.nearlyDarkBlue,
                             ),
                           ),
                           const SizedBox(
@@ -66,7 +66,7 @@ class TitleView extends StatelessWidget {
                             width: 26,
                             child: Icon(
                               Icons.arrow_forward,
-                              color: FitnessAppTheme.darkText,
+                              color: TravelAppTheme.darkText,
                               size: 18,
                             ),
                           ),

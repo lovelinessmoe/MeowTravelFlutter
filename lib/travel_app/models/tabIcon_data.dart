@@ -27,7 +27,7 @@ class TabIconData {
     TabIconData(
       imagePath: 'assets/travel_app/tab_4.png',
       selectedImagePath: 'assets/travel_app/tab_4s.png',
-      index: 3,
+      index: 1,
       isSelected: false,
       animationController: null,
     ),
