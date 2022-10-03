@@ -50,27 +50,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     return Container(
         color: TravelAppTheme.background,
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: FutureBuilder<bool>(
-            future: getData(),
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (!snapshot.hasData) {
-                return const SizedBox();
-              } else {
-                return Stack(
-                  children: <Widget>[
-                    loginForm(),
-                  ],
-                );
-              }
-            },
-          ),
-        ));
-  }
-
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
+            backgroundColor: Colors.transparent,
+            body: Scrollbar(
+                child: SingleChildScrollView(
+              child: loginForm(),
+            ))));
   }
 
   Widget loginForm() {
@@ -78,6 +62,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       // 垂直居中
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        SizedBox(height: MediaQuery.of(context).size.height / 5),
         ClipOval(
           child: Image.asset("assets/travel_app/logo.png",
               height: 220, width: 220, fit: BoxFit.cover),
@@ -203,7 +188,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             ),
                             cursorColor: HexColor('#54D3C2'),
                             decoration: const InputDecoration(
-                              icon: Icon(Icons.data_usage, color: AppTheme.grey),
+                              icon:
+                                  Icon(Icons.data_usage, color: AppTheme.grey),
                               border: InputBorder.none,
                               hintText: '验证码',
                             ),

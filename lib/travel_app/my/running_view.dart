@@ -74,8 +74,7 @@ class RunningView extends StatelessWidget {
                                           "You're doing great!",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                            fontFamily:
-                                                TravelAppTheme.fontName,
+                                            fontFamily: TravelAppTheme.fontName,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
                                             letterSpacing: 0.0,

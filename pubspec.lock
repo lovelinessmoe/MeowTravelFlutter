@@ -118,6 +118,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_baidu_mapapi_base:
+    dependency: transitive
+    description:
+      name: flutter_baidu_mapapi_base
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.2.0"
   flutter_blurhash:
     dependency: transitive
     description:
@@ -125,6 +132,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.7.0"
+  flutter_bmflocation:
+    dependency: "direct dev"
+    description:
+      name: flutter_bmflocation
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.2.1"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -338,6 +352,41 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.11.1"
+  permission_handler:
+    dependency: "direct dev"
+    description:
+      name: permission_handler
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "10.0.2"
+  permission_handler_android:
+    dependency: transitive
+    description:
+      name: permission_handler_android
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "10.1.0"
+  permission_handler_apple:
+    dependency: transitive
+    description:
+      name: permission_handler_apple
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "9.0.4"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.8.0"
+  permission_handler_windows:
+    dependency: transitive
+    description:
+      name: permission_handler_windows
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.0"
   platform:
     dependency: transitive
     description:

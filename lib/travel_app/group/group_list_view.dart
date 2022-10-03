@@ -1,27 +1,27 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../travel_app_theme.dart';
-import 'models/group_list_data.dart';
-
+import 'models/group.dart';
 
 class GroupListView extends StatelessWidget {
   const GroupListView(
       {Key? key,
-      this.hotelData,
+      this.groupData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
   final VoidCallback? callback;
-  final GroupListData? hotelData;
+  final Group? groupData;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -55,8 +55,11 @@ class GroupListView extends StatelessWidget {
                           children: <Widget>[
                             AspectRatio(
                               aspectRatio: 2,
-                              child: Image.asset(
-                                hotelData!.imagePath,
+                              child: Image(
+                                image: CachedNetworkImageProvider(
+                                  groupData?.groupImg ??
+                                      "https://s2.loli.net/2022/04/05/3QmL6UklnaV9EP5.jpg",
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -78,7 +81,7 @@ class GroupListView extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            hotelData!.titleTxt,
+                                            groupData?.groupName ?? "",
                                             textAlign: TextAlign.left,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w600,
@@ -92,32 +95,11 @@ class GroupListView extends StatelessWidget {
                                                 MainAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                hotelData!.subTxt,
+                                                groupData?.groupShortMsg ?? "",
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.grey
                                                         .withOpacity(0.8)),
-                                              ),
-                                              const SizedBox(
-                                                width: 4,
-                                              ),
-                                              Icon(
-                                                FontAwesomeIcons.locationDot,
-                                                size: 12,
-                                                color: TravelAppTheme
-                                                        .buildLightTheme()
-                                                    .primaryColor,
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  '${hotelData!.dist.toStringAsFixed(1)} km to city',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.8)),
-                                                ),
                                               ),
                                             ],
                                           ),
@@ -126,42 +108,8 @@ class GroupListView extends StatelessWidget {
                                                 const EdgeInsets.only(top: 4),
                                             child: Row(
                                               children: <Widget>[
-                                                RatingBar(
-                                                  initialRating:
-                                                      hotelData!.rating,
-                                                  direction: Axis.horizontal,
-                                                  allowHalfRating: true,
-                                                  itemCount: 5,
-                                                  itemSize: 24,
-                                                  ratingWidget: RatingWidget(
-                                                    full: Icon(
-                                                      Icons.star_rate_rounded,
-                                                      color: TravelAppTheme
-                                                              .buildLightTheme()
-                                                          .primaryColor,
-                                                    ),
-                                                    half: Icon(
-                                                      Icons.star_half_rounded,
-                                                      color: TravelAppTheme
-                                                              .buildLightTheme()
-                                                          .primaryColor,
-                                                    ),
-                                                    empty: Icon(
-                                                      Icons
-                                                          .star_border_rounded,
-                                                      color: TravelAppTheme
-                                                              .buildLightTheme()
-                                                          .primaryColor,
-                                                    ),
-                                                  ),
-                                                  itemPadding:
-                                                      EdgeInsets.zero,
-                                                  onRatingUpdate: (rating) {
-                                                    print(rating);
-                                                  },
-                                                ),
                                                 Text(
-                                                  ' ${hotelData!.reviews} Reviews',
+                                                  '创建时间: ${formatter.format(groupData?.createTime ?? DateTime.now())}',
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.grey
@@ -184,7 +132,7 @@ class GroupListView extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          '\$${hotelData!.perNight}',
+                                          '${groupData?.nowNum}   /   ${groupData?.groupNum}',
                                           textAlign: TextAlign.left,
                                           style: const TextStyle(
                                             fontWeight: FontWeight.w600,
@@ -192,7 +140,7 @@ class GroupListView extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          '/per night',
+                                          '当前人数/最大人数',
                                           style: TextStyle(
                                               fontSize: 14,
                                               color:
@@ -206,7 +154,7 @@ class GroupListView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Positioned(
+                        /*Positioned(
                           top: 8,
                           right: 8,
                           child: Material(
@@ -226,7 +174,7 @@ class GroupListView extends StatelessWidget {
                               ),
                             ),
                           ),
-                        )
+                        )*/
                       ],
                     ),
                   ),

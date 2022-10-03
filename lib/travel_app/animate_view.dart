@@ -5,10 +5,12 @@ class AnimateView extends StatelessWidget {
   final Animation<double>? animation;
   final Widget childView;
 
-
-  const AnimateView({Key? key, this.animationController, this.animation, required this.childView})
+  const AnimateView(
+      {Key? key,
+      this.animationController,
+      this.animation,
+      required this.childView})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {

@@ -81,9 +81,7 @@ class _TravelAppHomeScreenState extends State<TravelAppHomeScreen>
               ),
             ),
             const Divider(height: 1.0),
-            const Expanded(
-              child: CreateGroupView()
-            ),
+            const Expanded(child: CreateGroupView()),
           ]),
         );
       },
@@ -128,7 +126,7 @@ class _TravelAppHomeScreenState extends State<TravelAppHomeScreen>
         ),
         BottomBarView(
           tabIconsList: tabIconsList,
-          addClick: () async{
+          addClick: () async {
             await _showCreateGroupView(context);
           },
           changeIndex: (int index) {

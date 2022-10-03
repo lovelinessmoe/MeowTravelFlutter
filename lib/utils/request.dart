@@ -18,6 +18,7 @@ class Request {
 
   Request._internal() {
     dio.options
+      // ..baseUrl = 'http://10.0.0.2:9201'
       // ..baseUrl = 'http://localhost:9201'
       ..baseUrl = 'https://2420n0969k.zicp.fun'
       ..connectTimeout = CONNECT_TIMEOUT
