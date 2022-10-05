@@ -1,27 +1,53 @@
-import 'package:meow_travel_flutter/generated/json/base/json_field.dart';
-import 'package:meow_travel_flutter/generated/json/check_group_info_entity.g.dart';
-import 'dart:convert';
 
-@JsonSerializable()
 class CheckGroupInfoEntity {
 
-	late String userName;
-	late String telephone;
-	late String email;
-	late String avatarUrl;
-	late DateTime addTime;
-	late double locationLat;
-	late double locationLng;
-	late String reportTime;
-  
-  CheckGroupInfoEntity();
+	String? userName;
+	String? telephone;
+	String? email;
+	String? avatarUrl;
+	DateTime? addTime;
+	double? locationLat;
+	double? locationLng;
+	String? reportTime;
 
-  factory CheckGroupInfoEntity.fromJson(Map<String, dynamic> json) => $CheckGroupInfoEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => $CheckGroupInfoEntityToJson(this);
+	CheckGroupInfoEntity();
 
-  @override
-  String toString() {
-    return jsonEncode(this);
+  CheckGroupInfoEntity.allArgs(
+      this.userName,
+      this.telephone,
+      this.email,
+      this.avatarUrl,
+      this.addTime,
+      this.locationLat,
+			this.locationLng,
+      this.reportTime);
+
+  Map<String, dynamic> toJson() {
+    return {
+      "userName": userName,
+      "telephone": telephone,
+      "email": email,
+      "avatarUrl": avatarUrl,
+      "addTime": addTime,
+      "locationLat": locationLat,
+      "locationLng": locationLng,
+      "reportTime": reportTime,
+    };
   }
+
+	factory CheckGroupInfoEntity.fromJson(Map<String, dynamic> json) {
+    return CheckGroupInfoEntity.allArgs(
+      json["userName"],
+      json["telephone"],
+      json["email"],
+      json["avatarUrl"],
+      DateTime.parse(json["addTime"]),
+      json["locationLat"],
+      json["locationLng"],
+      json["reportTime"],
+    );
+  }
+//
+
 }

@@ -108,15 +108,16 @@ class _MyGroupState extends State<MyGroup> with TickerProviderStateMixin {
         cells: <DataCell>[
           DataCell(SizedBox(
             width: 48,
-            child: Image.network(checkGroupInfo.avatarUrl),
+            child: Image.network(checkGroupInfo.avatarUrl ?? ""),
           )),
-          DataCell(Text(checkGroupInfo.userName)),
-          DataCell(Text(checkGroupInfo.telephone)),
-          DataCell(Text(checkGroupInfo.email)),
-          DataCell(Text(checkGroupInfo.reportTime)),
+          DataCell(Text(checkGroupInfo.userName ?? "")),
+          DataCell(Text(checkGroupInfo.telephone ?? "")),
+          DataCell(Text(checkGroupInfo.email ?? "")),
+          DataCell(Text(checkGroupInfo.reportTime ?? "未打卡")),
           DataCell(Text(checkGroupInfo.locationLat.toString())),
           DataCell(Text(checkGroupInfo.locationLng.toString())),
-          DataCell(Text(formatter.format(checkGroupInfo.addTime))),
+          DataCell(
+              Text(formatter.format(checkGroupInfo.addTime ?? DateTime.now()))),
         ],
       ));
     }
