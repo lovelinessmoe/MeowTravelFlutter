@@ -35,4 +35,15 @@ class GroupApi {
       "locationLng": location.longitude ?? ""
     });
   }
+
+  static getMyGroup() {
+    return Request().get(
+      "/user/group/getMyGroup",
+    );
+  }
+
+  static getGroupCheckInfo(String groupId) {
+    return Request()
+        .get("/user/group/getGroupCheckInfo", params: {"groupId": groupId});
+  }
 }

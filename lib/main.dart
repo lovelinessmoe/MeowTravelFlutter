@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
     });
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: RouterNow.navigatorKey,
       home: const TravelAppHomeScreen(),
       routes: <String, WidgetBuilder>{'router/login': (_) => const Login()},

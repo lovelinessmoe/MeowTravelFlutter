@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meow_travel_flutter/travel_app/group/create_gtoup_view.dart';
+import 'package:meow_travel_flutter/travel_app/group/create_group_view.dart';
 import 'package:meow_travel_flutter/travel_app/models/tabIcon_data.dart';
 import 'package:meow_travel_flutter/travel_app/my/my_page_screen.dart';
 
@@ -43,51 +43,6 @@ class _TravelAppHomeScreenState extends State<TravelAppHomeScreen>
     super.dispose();
   }
 
-  Future<int?> _showCreateGroupView(context) async {
-    return showModalBottomSheet<int>(
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-            ),
-          ),
-          height: MediaQuery.of(context).size.height / 2.0 + 160,
-          child: Column(children: [
-            SizedBox(
-              height: 50,
-              child: Stack(
-                textDirection: TextDirection.rtl,
-                children: [
-                  const Center(
-                    child: Text(
-                      '创建旅游团',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0),
-                    ),
-                  ),
-                  IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }),
-                ],
-              ),
-            ),
-            const Divider(height: 1.0),
-            const Expanded(child: CreateGroupView()),
-          ]),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -127,7 +82,7 @@ class _TravelAppHomeScreenState extends State<TravelAppHomeScreen>
         BottomBarView(
           tabIconsList: tabIconsList,
           addClick: () async {
-            await _showCreateGroupView(context);
+            await CreateGroupView.showCreateGroupView(context, null);
           },
           changeIndex: (int index) {
             if (index == 0) {

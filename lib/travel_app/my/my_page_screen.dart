@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:meow_travel_flutter/travel_app/my/my_info_view.dart';
-import 'package:meow_travel_flutter/travel_app/my/running_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../animate_view.dart';
+import '../group/title_view.dart';
 import '../models/user.dart';
 import '../travel_app_theme.dart';
+import 'my_group.dart';
 
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({Key? key, this.animationController}) : super(key: key);
@@ -80,15 +81,33 @@ class _MyPageScreenState extends State<MyPageScreen>
         user: userInfo,
       ),
     );
+
     listViews.add(
-      RunningView(
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TitleView(
+          titleTxt:"我创建的旅游团",
+          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: const Interval(0, 1.0, curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController!,
+          callback: () async {
+
+          },
+        ),
+      )
+    );
+    listViews.add(
+      MyGroup(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
-            curve: const Interval((1 / count) * 1, 1.0,
+            curve: const Interval((1 / count) * 0, 1.0,
                 curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
-      ),
+      )
     );
+
     listViews.add(AnimateView(
       animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
           parent: widget.animationController!,
@@ -111,6 +130,11 @@ class _MyPageScreenState extends State<MyPageScreen>
         ),
       ),
     ));
+
+    listViews.add(
+        const SizedBox(height: 50,)
+    );
+
   }
 
   Future<bool> getData() async {
@@ -233,3 +257,4 @@ class _MyPageScreenState extends State<MyPageScreen>
     );
   }
 }
+
