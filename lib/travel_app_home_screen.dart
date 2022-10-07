@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meow_travel_flutter/travel_app/group/create_group_view.dart';
+import 'package:meow_travel_flutter/travel_app/group/models/group.dart';
 import 'package:meow_travel_flutter/travel_app/models/tabIcon_data.dart';
 import 'package:meow_travel_flutter/travel_app/my/my_page_screen.dart';
 
@@ -82,7 +83,9 @@ class _TravelAppHomeScreenState extends State<TravelAppHomeScreen>
         BottomBarView(
           tabIconsList: tabIconsList,
           addClick: () async {
-            await CreateGroupView.showCreateGroupView(context, null);
+            Group group =  Group();
+            group.groupNum = 2;
+            await CreateGroupView.showCreateGroupView(context,group);
           },
           changeIndex: (int index) {
             if (index == 0) {

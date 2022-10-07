@@ -100,11 +100,11 @@ class _MyGroupState extends State<MyGroup> with TickerProviderStateMixin {
     List<dynamic> data = res["data"];
     final int count = data.length;
 
-    List<DataRow> checkGroupInfos = <DataRow>[];
+    List<DataRow> checkGroupInfoList = <DataRow>[];
     for (int i = 0; i < count; i++) {
       CheckGroupInfoEntity checkGroupInfo =
           CheckGroupInfoEntity.fromJson(data[i]);
-      checkGroupInfos.add(DataRow(
+      checkGroupInfoList.add(DataRow(
         cells: <DataCell>[
           DataCell(SizedBox(
             width: 48,
@@ -118,6 +118,16 @@ class _MyGroupState extends State<MyGroup> with TickerProviderStateMixin {
           DataCell(Text(checkGroupInfo.locationLng.toString())),
           DataCell(
               Text(formatter.format(checkGroupInfo.addTime ?? DateTime.now()))),
+          DataCell(TextButton(
+            child: checkGroupInfo.isLeader ?? false
+                ? const Text("解散旅游团")
+                : const Text("踢出"),
+            onPressed: () {
+              GroupApi.removeUserFromGroup(
+                  checkGroupInfo.userId ?? "", group.groupId ?? "");
+              myGroupInfo();
+            },
+          )),
         ],
       ));
     }
@@ -138,8 +148,9 @@ class _MyGroupState extends State<MyGroup> with TickerProviderStateMixin {
                         DataColumn(label: Text('经度')),
                         DataColumn(label: Text('纬度')),
                         DataColumn(label: Text('入团时间')),
+                        DataColumn(label: Text('操作')),
                       ],
-                      rows: checkGroupInfos,
+                      rows: checkGroupInfoList,
                     )),
               ),
             ));

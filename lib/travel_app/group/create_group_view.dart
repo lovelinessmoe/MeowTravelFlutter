@@ -82,6 +82,7 @@ class _CreateGroupViewState extends State<CreateGroupView>
   @override
   void initState() {
     super.initState();
+    widget.group ??= Group();
   }
 
   @override
@@ -278,11 +279,11 @@ class _CreateGroupViewState extends State<CreateGroupView>
     final pickerImages = await picker.pickImage(source: ImageSource.gallery);
     if (mounted) {
       if (pickerImages != null) {
-        setState(() {
-          _userImage = File(pickerImages.path);
-        });
+        _userImage = File(pickerImages.path);
         var res = await _upLoadImage(_userImage!);
-        widget.group?.groupImg = res["data"];
+        setState(() {
+          widget.group?.groupImg = res["data"];
+        });
       } else {
         Fluttertoast.showToast(
             msg: '没有照片选择',

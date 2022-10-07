@@ -46,4 +46,9 @@ class GroupApi {
     return Request()
         .get("/user/group/getGroupCheckInfo", params: {"groupId": groupId});
   }
+
+  static removeUserFromGroup(String userId, String groupId) {
+    return Request().post("/user/group/removeUserFromGroup",
+        params: {"userId": userId, "groupId": groupId});
+  }
 }
